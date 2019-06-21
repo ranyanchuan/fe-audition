@@ -15,3 +15,5 @@
 7.repaint 重绘，只改变内部样式 backgroun-color
 
 ##### 3、何优化首屏渲染性能？
+
+##### 4、jsonp 工作原理？
