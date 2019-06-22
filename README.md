@@ -80,4 +80,42 @@ console.log(result.friends);
 console.log(result.getName());
 console.log(result.age);
 ```
+##### [js事件冒泡和js事件代理？](https://www.cnblogs.com/sspeng/p/9719854.html)
+1.事件冒泡: 当子元素的事件处理函数被触发（如onclick），该事件会从事件源（当前子元素）逐级向上层元素传递，触发祖先元素的 onclik 事件，一直到最外层 html 根元素。这可能会带来困扰，不必要的事件处理函数被执行了，不过我们可以阻止事件冒泡。事件触发时，会传入一个event对象，它有一个 stopPropagation() 方法可以阻止事件冒泡。 事件冒泡机制当然也有有利的一面，事件代理就是基于浏览器的事件冒泡机制。  
+2.事件代理: 事件代理也叫事件委托，当我们需要为父元素的很多子元素添加事件时，可以通过把事件添加到父元素并把事件委托给父元素来触发事件处理函数。 在开发中，我们有时会遇到给列表每一个子元素都添加一个事件，可以用遍历来操作，这种方法固然简单，但是如果这个列表有巨量的子元素的时候，就要消耗大量的性能，并且当子元素需要新增的时候，每增加一个子元素就需要遍历一次，这种方法就更不可取。 事件委托不仅实现相同了功能，而且大大减少了DOM操作。
+```js
+<ul class="wrap">
+    <li class="item">1111<button>删除</button></li>
+    <li class="item">2222<button>删除</button></li>
+    <li class="item">3333<button>删除</button></li>
+    <li class="item">4444<button>删除</button></li>
+    <li class="item">5555<button>删除</button></li>
+</ul>
+<button class="add">添加子元素</button>
 
+<script>
+    let oWrap = document.getElementsByClassName('wrap')[0];
+    let oItem = document.getElementsByClassName('item');
+    let oAdd = document.getElementsByClassName('add')[0];
+
+    oWrap.addEventListener('click',function(e){
+        //判断事件目标元素是否为 li ,并显示它的第一个子节点的文本内容
+        if(e.target && e.target.nodeName.toLowerCase() == 'li'){
+            console.log(e.target.childNodes[0].textContent);
+        }
+
+        //判断事件目标元素是否为 button ,删除它的父元素
+        if(e.target && e.target.nodeName.toLowerCase() == 'button'){
+            oWrap.removeChild(e.target.parentNode);
+        }
+    })
+
+    //添加子节点
+    oAdd.addEventListener('click',function () { 
+        let oLi = document.createElement('li');
+        oLi.setAttribute('class','item');
+        oLi.innerHTML = oItem.length+1+'<button>删除</button>';
+        oWrap.appendChild(oLi);
+    })
+</script>
+```
