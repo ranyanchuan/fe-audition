@@ -53,3 +53,31 @@ Parent.prototype = new Person('老明');　　//这一步也很关键
 var result = new Parent(24);
 ```
 4.寄生组合继承:通过寄生方式，砍掉父类的实例属性，这样，在调用两次父类的构造的时候，就不会初始化两次实例方法/属性，避免的组合继承的缺点
+```js
+function Person(name) {
+    this.name = name;
+    this.friends = ['小李','小红'];
+}
+
+Person.prototype.getName = function () {
+    return this.name;
+};
+
+function Parent(age) {
+    Person.call(this,"老明");
+    this.age = age;
+}
+
+(function () {
+    var Super = function () {};     // 创建一个没有实例方法的类
+    Super.prototype = Person.prototype;
+    Parent.prototype = new Super();     //将实例作为子类的原型
+})();
+
+var result = new Parent(23);
+console.log(result.name);
+console.log(result.friends);
+console.log(result.getName());
+console.log(result.age);
+```
+
