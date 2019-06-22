@@ -4,7 +4,7 @@
 1. ie-->trident
 2. firefix-->gecko
 3. safari-->webkit  
-4.chrome-->blink
+4. chrome-->blink
 ##### 2、浏览器是如何渲染页面的？
 1.解析生成dom tree
 2.解析生成 css rule tree
