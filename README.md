@@ -3,7 +3,7 @@
 ##### 1、浏览内核有哪些？
 1. ie-->trident
 2. firefix-->gecko
-3. safari-->webkit
+3. safari-->webkit  
 4.chrome-->blink
 ##### 2、浏览器是如何渲染页面的？
 1.解析生成dom tree
