@@ -119,4 +119,56 @@ console.log(result.age);
     })
 </script>
 ```
-##### [9、数组的排序方法](https://www.jianshu.com/p/da9e31c485c2)
+##### [9、数组的排序方法](https://www.cnblogs.com/yuqing6/p/8862436.html)
+```js
+// 选择排序
+function sort(arr) {
+    for (let i = 0; i < arr.length - 1; i++) {
+        for (let j = i + 1; j < arr.length; j++) {
+            if (arr[i] > arr[j]) {
+                // es6 新语法
+                // [arr[i], arr[j]] = [arr[j], arr[i]];
+                let temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+            }
+        }
+    }
+    return arr;
+}
+
+// console.log(sort([6, 5, 1, 0, 1, 2, 0, 3, 4, 1]))
+
+// 冒泡排序
+function bubbleSort(arr) {
+    for (let i = 0; i < arr.length; i++) {
+        for (let j = 0; j < arr.length - i - 1; j++) {
+            if (arr[j] > arr[j + 1]) {
+                // es6 新语法
+                // [arr[i], arr[j]] = [arr[j], arr[i]];
+                let temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+            }
+        }
+    }
+    return arr;
+}
+
+// console.log(bubbleSort([6, 5, 1, 0, 1, 2, 0, 3, 4, 1]))
+// 插入排序
+function insertSort(arr) {
+    var len = arr.length;
+    var preIndex, current;
+    for (let i = 1; i < len; i++) {
+        preIndex = i - 1;
+        current = arr[i];
+        while (preIndex >= 0 && arr[preIndex] > current) {
+            arr[preIndex + 1] = arr[preIndex];
+            preIndex--;
+        }
+        arr[preIndex + 1] = current;
+    }
+    return arr;
+}
+```
