@@ -175,7 +175,9 @@ function insertSort(arr) {
 ##### 9、javascript 数据类型
 1. null、undefined、boolean、string、number、symbol 和 object(引用类型)
 
-##### 10、typeof 判断数据类型 
+##### 10、[数据类型的判断](https://mp.weixin.qq.com/s/WfEOY57Trq6JD1CO2VSYWA)
+
+1、typeof 判断数据类型 
 typeof返回一个表示数据类型的字符串，返回结果包括：number、boolean、string、symbol、object、undefined、function等7种数据类型，但不能判断null、array等
 ```js
 typeof Symbol(); // symbol
@@ -189,4 +191,33 @@ typeof new Date(); // object
 typeof new ReExp(); // object
 typeof NaN; // number
 ```
+2、instanceof
+instanceof 是用来判断A是否为B的实例，表达式为：A instanceof B，如果A是B的实例，则返回true,否则返回false。instanceof 运算符用来测试一个对象在其原型链中是否存在一个构造函数的 prototype 属性，但它不能检测null 和 undefined
+```js
+[] instanceof Array; // true
+{} instanceof Objext; // true
+new Date instanceof Date; // true
+new RegExp() instanceof RegExp; // true
+null instanceof Null; // 报错
+undefined instanceof undefined; // 报错
+NaN instanceof Nan; // 报错
+```
+3、constructor
+constructor作用和instanceof非常相似。但constructor检测 Object与instanceof不一样，还可以处理基本数据类型的检测。不过函数的 constructor 是不稳定的，这个主要体现在把类的原型进行重写，在重写的过程中很有可能出现把之前的constructor给覆盖了，这样检测出来的结果就是不准确的。
+4、Object.prototype.toString.call();
+Object.prototype.toString.call() 是最准确最常用的方式。
+```js
+Object.prototype.toString.call(''); // [object String] 
+Object.prototype.toString.call(1); // [object Number] 
+Object.prototype.toString.call(true); // [object Boolean] 
+Object.prototype.toString.call(undefined); // [object Undefined] 
+Object.prototype.toString.call(null); // [object Null] 
+Object.prototype.toString.call(new Function()); // [object Function] 
+Object.prototype.toString.call(new Date()); // [object Date] 
+Object.prototype.toString.call([]); // [object Array] 
+Object.prototype.toString.call(new RegExp()); // [object RegExp] 
+Object.prototype.toString.call(new Error()); // [object Error] 
+```
+
+
 
