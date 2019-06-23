@@ -175,3 +175,18 @@ function insertSort(arr) {
 ##### 9、javascript 数据类型
 1. null、undefined、boolean、string、number、symbol 和 object(引用类型)
 
+##### 10、typeof 判断数据类型 
+typeof返回一个表示数据类型的字符串，返回结果包括：number、boolean、string、symbol、object、undefined、function等7种数据类型，但不能判断null、array等
+```js
+typeof Symbol(); // symbol
+typeof ''; // string
+typeof true; // boolean
+typeof undefinded; // undefinded
+typeof new Function(); // function
+typeof null; // object
+typeof []; // object
+typeof new Date(); // object
+typeof new ReExp(); // object
+typeof NaN; // number
+```
+
