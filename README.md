@@ -203,7 +203,7 @@ undefined instanceof undefined; // 报错
 NaN instanceof Nan; // 报错
 ```
 3、constructor
-constructor作用和instanceof非常相似。但constructor检测 Object与instanceof不一样，还可以处理基本数据类型的检测。不过函数的 constructor 是不稳定的，这个主要体现在把类的原型进行重写，在重写的过程中很有可能出现把之前的constructor给覆盖了，这样检测出来的结果就是不准确的。
+constructor作用和instanceof非常相似。但constructor检测 Object与instanceof不一样，还可以处理基本数据类型的检测。不过函数的 constructor 是不稳定的，这个主要体现在把类的原型进行重写，在重写的过程中很有可能出现把之前的constructor给覆盖了，这样检测出来的结果就是不准确的。  
 4、Object.prototype.toString.call();
 Object.prototype.toString.call() 是最准确最常用的方式。
 ```js
@@ -217,6 +217,49 @@ Object.prototype.toString.call(new Date()); // [object Date]
 Object.prototype.toString.call([]); // [object Array] 
 Object.prototype.toString.call(new RegExp()); // [object RegExp] 
 Object.prototype.toString.call(new Error()); // [object Error] 
+```
+##### 11.浅拷贝与深拷贝
+浅拷贝只复制指向某个对象的指针，而不复制对象本身，新旧对象还是共享同一块内存。
+1.Object.assign()：需注意的是目标对象只有一层的时候，是深拷贝
+2.Array.prototype.concat()
+3.Array.prototype.slice()
+深拷贝就是在拷贝数据的时候，将数据的所有引用结构都拷贝一份
+1.热门的函数库lodash，也有提供_.cloneDeep用来做深拷贝
+2.jquery 提供一个$.extend可以用来做深拷贝
+3.JSON.parse(JSON.stringify())
+4.手写递归方法
+```js
+// 定义检查数据类型的功能函数
+function checkedType(target){
+   return Object.prototype.toString.call(target).slice(8,-1);
+}
+
+// 实现深度clone ---对象/数组
+function deep(target){
+
+  let [result,targetType]=[null,checkedType[target]];
+  if(targetType==='Object'){
+    result={};
+  }else if(targetType==='Array'){
+    result=[];
+  }else{
+    ruturn target;
+  }
+  
+  for(let i in target){
+  let value=target[i];
+  //判断目标结构里的每一值是否存在对象/数组
+  if(checkedType[value] ==='Object' || checkedType[value] ==='Array'){
+      //对象/数组里嵌套了对象/数组
+      //继续遍历获取到value值
+     result[i]=clone(value)
+  }else{
+    //获取到value值是基本的数据类型或者是函数。
+    result[i]=value;
+  }
+ }
+ return result;
+}
 ```
 
 
