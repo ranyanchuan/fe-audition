@@ -266,12 +266,68 @@ function deep(target){
 
 ##### 12、作用域和闭包
 1. 执行上下文和执行栈
+执行上下文就是当前JavaScript代码被解析和执行时所在环境的抽象概念，JavaScript 中运行任何代码都是执行上下文中运行  
+执行上下文的生命周期包括三个阶段：`创建阶段-->执行阶段-->回收阶段`,我们会重点介绍创建阶段  
+创建阶段(当函数被调用，但为执行任何其内部代码之前)，会执行以下三件事  
+①、创建变量对象：首先初始化函数的参数arguments,提示函数声明和变量声明  
+②、创建作用域链：
+③、确定 this 指向：
+```js
+function test(arg){
+ // 1. 形参arg 是 'hi'
+ // 2. 因为函数声明比变量声明优先级高，所有 arg 是 function
+ console.log(arg);
+ var arg='hello'; // var arg 被忽略， arg='hello';
+ function arg(){
+   console.log("hello world");
+ }
+ console.log(arg());
+}
 
+test('hi');
 
+```
+JavaScript 引擎创建了执行栈来管理执行上下文。可以把执行栈认为是一个存储函数调用的栈结构，遵循先进后出的原则。
+![avatar](https://mmbiz.qpic.cn/mmbiz_gif/zewrLkrYfsP7nDsOqPWQaGXND21JicTYEZSUPOIWAQN2bZZlx3hBG0uEWw19Er1MnDBDuLZlwwTYx5hxNSpkPrQ/640?wx_fmt=gif&tp=webp&wxfrom=5&wx_lazy=1)
+我们需要记住几个关键点： 
 
+JavaScript执行在单线程上，所有的代码都是排队执行。   
+一开始浏览器执行全局的代码时，首先创建全局的执行上下文，压入执行栈的顶部。  
+每当进入一个函数的执行就会创建函数的执行上下文，并且把它压入执行栈的顶部。当前函数执行完成后，当前函数的执行上下文出栈，并等待垃圾回收。  
+浏览器的JS执行引擎总是访问栈顶的执行上下文。  
+全局上下文只有唯一的一个，它在浏览器关闭时出栈。 
 
+2、作用域与作用域链
+① ES6 到来JavaScript 有全局作用域、函数作用域和块级作用域（ES6新增）。我们可以这样理解：作用域就是一个独立的地盘，让变量不会外泄、暴露出去。也就是说作用域最大的用处就是隔离变量，不同作用域下同名变量不会有冲突。  
+```js
+var a=100;
+function fun(){
+ var b=200; // 函数作用域
+ console.log(a); // 全局作用域
+ console.log(b);
+}
+fun();
 
-1. 闭包
+```
+② 自由变量的值如何得到 —— 向父级作用域(创建该函数的那个父级作用域)寻找。如果父级也没呢？再一层一层向上寻找，直到找到全局作用域还是没找到，就宣布放弃。这种一层一层的关系，就是作用域链 。
+```js
+function F1(){
+ var a=100;
+ return function(){
+   console.log(a);
+ }
+}
+function F2(f1){
+ var a=200;
+ console.log(f1())
+}
+
+var f1=F1();
+F2(f1);
+
+```
+
+3. 闭包
 闭包就是函数中的函数，里面的函数可以访问外面的函数的变量，外面的变量是内部函数的一部分
 ①、使用闭包可以访问函数中的变量
 ②、可以时变量长期保存到内存中，生命周期比较长
