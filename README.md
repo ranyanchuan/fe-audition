@@ -370,6 +370,17 @@ console.log(300);
 // 100 300 200
 
 ```
+##### 13、前端异步场景
+1、定时任务：setTimeout、setInterval
+2、网络请求：ajax请求、动态加载
+3、事件绑定
+
+##### 14、sessionStorage 、localStorage 和 cookie 之间的区别
+
+共同点：都是保存在浏览器端，且都遵循同源策略。  
+不同点：在于生命周期与作用域的不同  
+作用域：localStorage(协议、主机名、端口)，sessionStorage(协议、主机名、端口、窗口)
+生命周期:localStorage永久、手动删除，sessionStorage 临时会话，窗口关闭自动消失
 
 
 
