@@ -172,3 +172,6 @@ function insertSort(arr) {
     return arr;
 }
 ```
+##### 9、javascript 数据类型
+1. null、undefined、boolean、string、number、symbol 和 object(引用类型)
+
