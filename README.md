@@ -499,5 +499,115 @@ readResult('1.txt').then( // async函数返回的也是个promise
 
 
 ```
+##### 17、ES6 核心特征
+1、开发环境配置  
+① babel:Babel是一个广泛使用的转码器，可以将ES6代码转为ES5代码，从而在现有环境执行   
+```js
+//=====babel 配置=======
+// 首先要先安装node.js，运行npm init，然后会生成package.json文件
+npm install --save-dev babel-core babel-preset-es2015 babel-preset-latest
+// 创建并配置.babelrc文件 
+//存放在项目的根目录下，与node_modules同级
+npm install -g babel-cli
+babel-version
+```
+```js
+// Babel的配置文件是.babelrc，存放在项目的根目录下
+// .babler 文件
+{
+  "presets":["es2015","latest"],
+  "plugins":[]
+}
+
+```
+② webpack: 把你的项目当做一个整体，通过一个给定的主文件（如：index.js），Webpack将从这个文件开始找到你的项目的所有依赖文件，使用loaders处理它们，最后打包为一个（或多个）浏览器可识别的JavaScript文件  
+![avatar](https://camo.githubusercontent.com/0ed1a23244e19d7276d95d0cdef4e073cd4bd69b/68747470733a2f2f757365722d676f6c642d63646e2e786974752e696f2f323031382f352f32322f313633383539396235343061313463343f773d3132343026683d35343326663d706e6726733d3332393432)
+
+如何配置webpack
+```js
+npm install webpack babel-loader --save-dev
+创建并配置 webpack.config.js//webpack.config.js文件与package.json同级
+配置 package.json中的scripts
+运行 npm start
+```
+webpack.config.js
+```js
+// 配置 webpack.config.js  针对.js结尾的文件除了node_modules都用babel解析
+module.exports = {
+    entry: './src/index.js',
+    output: {
+        path: __dirname,
+        filename: './build/bundle.js'
+    },
+    module: {
+        rules: [{
+            test: /\.js?$/,
+            exclude: /(node_modules)/,
+            loader: 'babel-loader'
+        }]
+    }
+}
+```
+package.json 配置
+```js
+//配置 package.json中的scripts
+"scripts": {
+    "start": "webpack",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+```
+2、数组的扩展
+①、Array.from() : 将伪数组对象或可遍历对象转换为真数组
+```js
+<button>测试1</button>
+<br>
+<button>测试2</button>
+<br>
+<button>测试3</button>
+<br>
+<script type="text/javascript">
+let btns = document.getElementsByTagName("button")
+console.log("btns",btns);//得到一个伪数组
+btns.forEach(item=>console.log(item)) Uncaught TypeError: btns.forEach is not a function
+</script>
+```
+```js
+Array.from(btns).forEach(item=>console.log(item))将伪数组转换为数组
+```
+②、Array.of(v1, v2, v3) : 将一系列值转换成数组
+```js
+
+let items = new Array(2) ;
+console.log(items.length) ; // 2
+console.log(items[0]) ; // undefined
+console.log(items[1]) ;
+//========
+let items1 = new Array(1, 2) ;
+console.log(items1.length) ; // 2
+console.log(items1[0]) ; // 1
+console.log(items1[1]) ; // 2
+//========
+let items = Array.of(1, 2);
+console.log(items.length); // 2
+console.log(items[0]); // 1
+console.log(items[1]); // 2
+items = Array.of(2);
+console.log(items.length); // 1
+console.log(items[0]); // 2
+```
+3、数组实例的includes()  
+Array.prototype.includes方法返回一个布尔值，表示某个数组是否包含给定的值。该方法的第二个参数表示搜索的起始位置，默认为0。如果第二个参数为负数，则表示倒数的位置，如果这时它大于数组长度（比如第二个参数为-4，但数组长度为3），则会重置为从0开始。  
+``js
+[1, 2, 3].includes(2)   // true
+[1, 2, 3].includes(3, -1); // true
+[1, 2, 3, 5, 1].includes(1, 2); // true
+
+[NaN].indexOf(NaN) // -1
+[NaN].includes(NaN) // true
+```
+
+
+
+ 
 
 
