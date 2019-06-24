@@ -388,3 +388,116 @@ console.log(300);
 3、CMD规范与AMD规范很相似，都用于浏览器编程，依赖就近，延迟执行，可以很容易在Node.js中运行。不过，依赖SPM 打包，模块的加载逻辑偏重  
 4、ES6 在语言标准的层面上，实现了模块功能，而且实现得相当简单，完全可以取代 CommonJS 和 AMD 规范，成为浏览器和服务器通用的模块解决方案  
 
+##### 16、[js异步编程的6中解决方案](https://github.com/ljianshu/Blog/issues/53)
+1、回调函数(Callback):
+```js
+ajax(url, () => {
+    // 处理逻辑
+})
+```
+2、回调地狱(Callback hell):
+```js
+ajax(url, () => {
+    // 处理逻辑
+    ajax(url1, () => {
+        // 处理逻辑
+        ajax(url2, () => {
+            // 处理逻辑
+        })
+    })
+})
+
+```
+回调函数的优点是简单、容易理解和实现，缺点是不利于代码的阅读和维护，各个部分之间高度耦合，使得程序结构混乱、流程难以追踪（尤其是多个回调函数嵌套的情况），而且每个任务只能指定一个回调函数。此外它不能使用 try catch 捕获错误，不能直接 return。
+
+3、事件监听
+4、发布订阅
+5、Promise/A+  
+① 1.Promise的三种状态  
+     Pending----Promise对象实例创建时候的初始状态  
+     Fulfilled----可以理解为成功的状态  
+     Rejected----可以理解为失败的状态  
+ ![avatar](https://camo.githubusercontent.com/9f06685a6c7200617ab7b831b8e6a31ca8569b45/68747470733a2f2f757365722d676f6c642d63646e2e786974752e696f2f323031392f312f362f313638323135393264663264326435383f773d35343726683d32393426663d706e6726733d3535303337)    
+```js
+let p = new Promise((resolve, reject) => {
+    reject('reject')
+    resolve('success')//无效代码不会执行
+});
+
+p.then((value) => {
+    console.log("value", value);
+},(error)=>{
+    console.log("error", error);
+})
+
+// 示例
+Promise.resolve(1).then(res=>{
+ console.log(res);
+ return 2 // 包装成 Promise.resolve(2);
+})
+.catch(err=>3)
+.thne(res=>console.log(res))
+
+```
+6、生成器Generators/ yield  
+```js
+function *foo(x) {
+  let y = 2 * (yield (x + 1))
+  let z = yield (y / 3)
+  return (x + y + z)
+}
+let it = foo(5)
+console.log(it.next())   // => {value: 6, done: false}
+console.log(it.next(12)) // => {value: 8, done: false}
+console.log(it.next(13)) // => {value: 42, done: true}
+```
+7、Async/Await
+使用async/await，你可以轻松地达成之前使用生成器和co函数所做到的工作,它有如下特点：  
+
+①、async/await是基于Promise实现的，它不能用于普通的回调函数。  
+②、async/await与Promise一样，是非阻塞的。  
+③、async/await使得异步代码看起来像同步代码，这正是它的魔力所在。  
+```js
+async function async1() {
+  return "1"
+}
+console.log(async1()) // -> Promise {<resolved>: "1"}
+
+
+let fs = require('fs')
+function read(file) {
+  return new Promise(function(resolve, reject) {
+    fs.readFile(file, 'utf8', function(err, data) {
+      if (err) reject(err)
+      resolve(data)
+    })
+  })
+}
+async function readResult(params) {
+  try {
+    let p1 = await read(params, 'utf8')//await后面跟的是一个Promise实例
+    let p2 = await read(p1, 'utf8')
+    let p3 = await read(p2, 'utf8')
+    console.log('p1', p1)
+    console.log('p2', p2)
+    console.log('p3', p3)
+    return p3
+  } catch (error) {
+    console.log(error)
+  }
+}
+readResult('1.txt').then( // async函数返回的也是个promise
+  data => {
+    console.log(data)
+  },
+  err => console.log(err)
+)
+// p1 2.txt
+// p2 3.txt
+// p3 结束
+// 结束
+
+
+```
+
+
